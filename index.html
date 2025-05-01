@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>URL偽装 & 復号ツール</title>
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>URL偽装 & 復号ツール</h1>
+
+    <!-- 暗号化 -->
+    <div class="section">
+        <h2>1. URLを偽装（暗号化）</h2>
+        <input type="text" id="realUrl" placeholder="本物のURLを入力">
+        <input type="password" id="keyEnc" placeholder="暗号化キー（パスワード）">
+        <button onclick="encrypt()">偽装URLを生成</button>
+        <div id="outputEnc"></div>
+    </div>
+
+    <!-- 復号 -->
+    <div class="section">
+        <h2>2. 偽装URLを復号</h2>
+        <input type="text" id="fakeUrl" placeholder='例: https://www.google.com/search?q=暗号文字列'>
+        <input type="password" id="keyDec" placeholder="復号キー（パスワード）">
+        <button onclick="decrypt()">元のURLを復元</button>
+        <div id="outputDec"></div>
+    </div>
+
+    <script href="script.js"></script>
+</body>
+</html>
