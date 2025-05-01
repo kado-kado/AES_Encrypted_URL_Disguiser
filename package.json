@@ -1,0 +1,21 @@
+{
+    "name": "aes-url",
+    "version": "1.0.3",
+    "description": "AES Encrypted URL Disguiser - Encode URLs and disguise them as Google search links",
+    "main": "index.js",
+    "bin": {
+        "aes-url": "./index.js"
+    },
+    "keywords": [
+        "aes",
+        "url",
+        "encryption",
+        "cli",
+        "obfuscation"
+    ],
+    "author": "kado-kado",
+    "license": "MIT",
+    "dependencies": {
+        "crypto-js": "^4.2.0"
+    }
+}

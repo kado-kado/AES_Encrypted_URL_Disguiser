@@ -1,58 +1,88 @@
-# AES Encrypted URL Disguiser
+# AES URL（AES暗号化URL偽装ツール）
 
-このツールは、指定したURLをAES暗号化し、Google検索風の偽装URLに変換します。
+**AES Encrypted URL Disguiser**
+任意のURLをAES暗号化し、Google検索風のURLに偽装して安全に共有するCLIツールです。復号には同じパスワードが必要となるため、共有リンクの秘匿性が高まります。
 
-復号には同じパスワードを使用することで、安全に本来のURLを隠して共有できます。
+## 特徴
 
-## 特長
+- 任意のURLをAES方式で暗号化
+- 暗号化された文字列を `https://www.google.com/search?q=...` のように偽装
+- 同じパスワードを使って復号可能
+- ローカルで完結、オフライン動作可
+- CLIベースでシンプル操作
 
-- 完全ローカル動作（インターネット通信なし）
-- パスワードによるAES暗号化・復号
-- Google検索URLを偽装形式に活用（例：`https://www.google.com/search?q=...`）
+---
 
-## デモ
+## インストール手順
 
-入力URL: https://example.com/ab/c/12345
+### 1. リポジトリをクローン
 
-パスワード: secretkey
+```bash
+git clone https://github.com/yourname/aes-url.git
+cd aes-url
+````
 
-→ 出力: https://www.google.com/search?q=U2FsdGVkX1+…
+### 2. 依存パッケージのインストール
 
-復号時に同じパスワードを使えば元のURLが復元されます。
+```bash
+npm install
+```
 
-## 使用技術
+### 3. CLIツールとしてグローバルにインストール
 
-- HTML / JavaScript
-- [CryptoJS](https://github.com/brix/crypto-js)（暗号化ライブラリ）
+```bash
+npm link
+```
 
-## ファイル構成
+これで `aes-url` コマンドがどこからでも使えるようになります。
 
-.
-
-├── index.html         # メインアプリ（ブラウザで開くだけ）
-
-├── README.md          # この説明ファイル
-
-└── crypto-js/         # CryptoJSライブラリ（CDN不要な場合のみ）
+---
 
 ## 使い方
 
-### 1. ローカルで開く方法
+### ■ URLを暗号化（偽装）
 
-1. このリポジトリをダウンロード or クローン
-2. `index.html` をブラウザで開く（ダブルクリックでもOK）
-3. 暗号化 or 復号のどちらかを選択し、必要な情報を入力
+```bash
+aes-url encode -u https://example.com/secret -p 任意のパスワード
+```
 
-### 2. GitHub Pages で公開する
+出力される偽装URL（例）：
 
-1. GitHubリポジトリの設定で Pages を有効化
-2. `main`ブランチや `docs`フォルダを選択
-3. 自分専用のツールとして公開URLを利用可能
+```
+https://www.google.com/search?q=U2FsdGVkX1...
+```
 
-## セキュリティ注意
+### ■ 偽装URLを復号して元のURLに戻す
 
-- パスワードが漏洩すると復号される可能性があります。共有時は安全な手段で鍵を伝えてください。
-- AES暗号は強力ですが、**短い鍵や推測されやすい鍵は避けてください**。
+```bash
+aes-url decode -u "https://www.google.com/search?q=U2FsdGVkX1..." -p 同じパスワード
+```
+
+出力される元のURL（例）：
+
+```
+https://example.com/secret
+```
+
+---
+
+## ヘルプ表示
+
+```bash
+aes-url --help
+aes-url encode --help
+aes-url decode --help
+```
+
+---
+
+## セキュリティに関する注意
+
+* 復号には暗号化時と**同じパスワード**が必要です。
+* パスワードを第三者と共有する際は、安全な手段を利用してください。
+* 暗号化文字列はAESの特性上、短くはなりません（可視的にも複雑になります）。
+
+---
 
 ## ライセンス
 
