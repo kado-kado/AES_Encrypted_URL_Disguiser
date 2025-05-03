@@ -8,7 +8,7 @@ const program = new Command();
 program
     .name("aes-url")
     .description("AES-encrypted URL disguiser CLI")
-    .version("2.0.0");
+    .version("2.0.2");
 
 const typeOptions = ["any", "today", "3day", "1week"];
 
