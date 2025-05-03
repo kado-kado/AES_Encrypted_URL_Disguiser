@@ -1,10 +1,10 @@
 {
     "name": "aes-url",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "description": "AES Encrypted URL Disguiser - Encode URLs and disguise them as Google search links",
     "repository": {
         "type": "git",
-        "url": "https://github.com/kado-kado/AES_Encrypted_URL_Disguiser.git"
+        "url": "git+https://github.com/kado-kado/AES_Encrypted_URL_Disguiser.git"
     },
     "homepage": "https://github.com/kado-kado/AES_Encrypted_URL_Disguiser#readme",
     "bugs": {
@@ -12,7 +12,7 @@
     },
     "main": "index.js",
     "bin": {
-        "aes-url": "./index.js"
+        "aes-url": "index.js"
     },
     "keywords": [
         "aes",
@@ -24,7 +24,10 @@
     "author": "kado-kado",
     "license": "MIT",
     "dependencies": {
-        "crypto-js": "^4.2.0",
-        "commander": "^11.0.0"
+        "commander": "^11.0.0",
+        "crypto-js": "^4.2.0"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
     }
 }
