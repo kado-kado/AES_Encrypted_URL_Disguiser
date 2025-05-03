@@ -1,64 +1,95 @@
-# AES URL（AES暗号化URL偽装ツール）
+# AES URL
 
-**AES Encrypted URL Disguiser**
-任意のURLをAES暗号化し、Google検索風のURLに偽装して安全に共有するCLIツールです。復号には同じパスワードが必要となるため、共有リンクの秘匿性が高まります。
+**AES 暗号化URL偽装ツール**
 
-## 特徴
-
-- 任意のURLをAES方式で暗号化
-- 暗号化された文字列を `https://www.google.com/search?q=...` のように偽装
-- 同じパスワードを使って復号可能
-- ローカルで完結、オフライン動作可
-- CLIベースでシンプル操作
+任意のURLをAESで暗号化し、Google検索クエリに偽装して出力します。意図した相手のみが復号できるようにURLを安全に共有するためのCLIツールです。
 
 ---
 
-## インストール手順
+## 特徴
 
-### 1. リポジトリをクローン
+* 任意のパスワードを使ってURLをAES暗号化
+* `https://www.google.com/search?q=...` のような偽装URLを出力
+* 有効期限付きの暗号化 (`today`, `3day`, `1week`) に対応
+* 同じパスワードで簡単に復号可能
+* オフラインでも動作するシンプルなCLIツール
+
+---
+
+## インストール
+
+### **1. GitHubを使う場合**
+
+**リポジトリをクローン**
 
 ```bash
-git clone https://github.com/yourname/aes-url.git
+git clone https://github.com/kado-kado/aes-url.git
 cd aes-url
-````
+```
 
-### 2. 依存パッケージのインストール
+**依存パッケージをインストール**
 
 ```bash
 npm install
 ```
 
-### 3. CLIツールとしてグローバルにインストール
+**グローバルにインストール（npm link）**
 
 ```bash
 npm link
 ```
 
-これで `aes-url` コマンドがどこからでも使えるようになります。
+これで `aes-url` コマンドがシステム全体で使用可能になります。
+
+---
+
+### **2. npmを使う場合**
+
+```bash
+npm i aes-url -g
+```
 
 ---
 
 ## 使い方
 
-### ■ URLを暗号化（偽装）
+### 1. **URLを暗号化する**
+
+URLをAESで暗号化し、Google検索URLとして偽装します：
 
 ```bash
-aes-url encode -u https://example.com/secret -p 任意のパスワード
+aes-url encode -u https://example.com/secret -p myPassword
 ```
 
-出力される偽装URL（例）：
+出力例：
 
 ```
 https://www.google.com/search?q=U2FsdGVkX1...
 ```
 
-### ■ 偽装URLを復号して元のURLに戻す
+暗号化方式（`type`）を指定することも可能です：
 
 ```bash
-aes-url decode -u "https://www.google.com/search?q=U2FsdGVkX1..." -p 同じパスワード
+aes-url encode -u https://example.com/secret -p myPassword -t today
 ```
 
-出力される元のURL（例）：
+---
+
+### 2. **偽装URLを復号する**
+
+Google検索風の偽装URLを元のURLに復号します：
+
+```bash
+aes-url decode -u "https://www.google.com/search?q=U2FsdGVkX1..." -p myPassword
+```
+
+有効期限つきの形式で復号する場合：
+
+```bash
+aes-url decode -u "https://www.google.com/search?q=..." -p myPassword -t 3day
+```
+
+出力例：
 
 ```
 https://example.com/secret
@@ -66,21 +97,30 @@ https://example.com/secret
 
 ---
 
-## ヘルプ表示
+## 🔐 タイプオプション（`-t`）
+
+`-t` または `--type` オプションを使用すると、パスワードを日付と組み合わせた形式に変換して、有効期限付きの暗号化・復号ができます。
+
+| タイプ     | 説明                                   | パスワード変換例（`-p mypass`）                 |
+| ------- | ------------------------------------ | ------------------------------------- |
+| `any`   | 常に同じパスワードで暗号化・復号（デフォルト）              | `mypass`                              |
+| `today` | 暗号化・復号時の日付（`yyyy-mm-dd`）を付けてパスワードを変換 | `mypass-2025-05-03`                   |
+| `3day`  | 過去3日分のパスワード候補（`yyyy/mm/dd`形式）で復号を試みる | `mypass2025/05/03`, `2025/05/02`, ... |
+| `1week` | 過去7日分のパスワード候補（`yyyy:mm:dd`形式）で復号を試みる | `mypass2025:05:03`, `2025:05:02`, ... |
+
+このオプションを使うことで、**期間限定のURL共有**が可能になり、セキュリティが向上します。
+
+---
+
+## ヘルプ
+
+利用可能なコマンドやオプションを表示するには、`--help` を使用します：
 
 ```bash
 aes-url --help
 aes-url encode --help
 aes-url decode --help
 ```
-
----
-
-## セキュリティに関する注意
-
-* 復号には暗号化時と**同じパスワード**が必要です。
-* パスワードを第三者と共有する際は、安全な手段を利用してください。
-* 暗号化文字列はAESの特性上、短くはなりません（可視的にも複雑になります）。
 
 ---
 
