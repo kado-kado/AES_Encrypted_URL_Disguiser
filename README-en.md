@@ -23,8 +23,8 @@ Encrypt any URL using AES and disguise it as a Google search query. This tool al
 **Clone the repository**
 
 ```bash
-git clone https://github.com/kado-kado/aes-url.git
-cd aes-url
+git clone https://github.com/kado-kado/AES_Encrypted_URL_Disguiser.git
+cd AES_Encrypted_URL_Disguiser
 ```
 
 **Install dependencies**

@@ -38,7 +38,7 @@ function generateKeyVariants(basePassword, type) {
 }
 
 function encryptUrl(realUrl, basePassword, type = "any") {
-    const key = generateKeyVariants(basePassword, type)[0]; // 最初の一つだけ使う
+    const key = generateKeyVariants(basePassword, type)[0];
     const encrypted = CryptoJS.AES.encrypt(realUrl, key).toString();
     return encodeURIComponent(encrypted);
 }

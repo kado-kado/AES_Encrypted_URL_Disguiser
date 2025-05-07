@@ -1,6 +1,6 @@
 {
     "name": "aes-url",
-    "version": "2.0.3",
+    "version": "2.0.4",
     "description": "AES Encrypted URL Disguiser - Encode URLs and disguise them as Google search links",
     "repository": {
         "type": "git",
@@ -24,6 +24,7 @@
     "author": "kado-kado",
     "license": "MIT",
     "dependencies": {
+        "aes-url": "^2.0.4",
         "commander": "^11.0.0",
         "crypto-js": "^4.2.0"
     },

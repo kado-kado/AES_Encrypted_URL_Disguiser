@@ -23,8 +23,8 @@
 **リポジトリをクローン**
 
 ```bash
-git clone https://github.com/kado-kado/aes-url.git
-cd aes-url
+git clone https://github.com/kado-kado/AES_Encrypted_URL_Disguiser.git
+cd AES_Encrypted_URL_Disguiser
 ```
 
 **依存パッケージをインストール**
