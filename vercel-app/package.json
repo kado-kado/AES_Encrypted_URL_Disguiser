@@ -1,0 +1,15 @@
+{
+    "name": "aes-url-web",
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start"
+},
+    "dependencies": {
+        "crypto-js": "^4.2.0",
+        "next": "latest",
+        "react": "latest",
+        "react-dom": "latest"
+},
+    "type": "module"
+}
