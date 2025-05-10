@@ -34,20 +34,35 @@ function generateKeyVariants(basePassword: string, type: string): string[] {
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    const { text, pass, type = 'any' } = req.body
-    const keys = generateKeyVariants(pass, type)
+    const { url, pass, type = "any" } = req.body;
 
-    for (const key of keys) {
+    // 無効なタイプの場合のエラーチェック
+    const typeOptions = ["any", "today", "3day", "1week"];
+    if (!typeOptions.includes(type)) {
+      return res.status(400).json({ error: `Invalid type: ${type}. Valid types are: ${typeOptions.join(", ")}` });
+    }
+
+    // URLデコードと復号化処理
+    const match = url.match(/[?&]decode\/([^&]+)/);
+    if (!match) {
+      return res.status(400).json({ error: 'Invalid disguised URL (missing q= parameter).' });
+    }
+
+    const decoded = decodeURIComponent(match[1]);
+    const keys = generateKeyVariants(pass, type);
+    let decrypted = null;
+
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
       try {
-        const bytes = CryptoJS.AES.decrypt(text, key)
-        const decrypted = bytes.toString(CryptoJS.enc.Utf8)
-        if (decrypted) {
-          return res.status(200).json({ decryptedUrl: decrypted })
-        }
+        const bytes = CryptoJS.AES.decrypt(decoded, key);
+        decrypted = bytes.toString(CryptoJS.enc.Utf8);
+        if (decrypted) break;
       } catch (_) {}
     }
 
-    return res.status(200).json({ decryptedUrl: 'Decryption failed' })
+    res.status(200).json({ decryptedUrl: decrypted || 'Decryption failed (wrong password, invalid type, or corrupt data).' });
+  } else {
+    res.status(405).json({ error: 'Method Not Allowed' });
   }
-  res.status(405).json({ error: 'Method Not Allowed' })
 }

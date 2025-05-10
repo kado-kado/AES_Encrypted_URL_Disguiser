@@ -18,6 +18,7 @@ program
     .requiredOption("-u, --url <url>", "URL to encrypt")
     .requiredOption("-p, --pass <password>", "Password for encryption")
     .option("-t, --type <type>", "Key format type: any, today, 3day, 1week", "any")
+    .option("-g, --google", "Disguise as a Google search URL")
     .action((options) => {
         if (!typeOptions.includes(options.type)) {
             console.error(`Invalid type: ${options.type}. Valid types are: ${typeOptions.join(", ")}`);
@@ -25,8 +26,14 @@ program
         }
 
         const encrypted = encryptUrl(options.url, options.pass, options.type);
-        console.log(`https://www.google.com/search?q=${encrypted}`);
+
+        const outputUrl = options.google
+            ? `https://www.google.com/search?q=${encrypted}`
+            : `https://aes-url.vercel.app/decode/${encrypted}`;
+
+        console.log(outputUrl);
     });
+
 
 program
     .command("decode")
@@ -40,12 +47,21 @@ program
             process.exit(1);
         }
 
-        const match = options.url.match(/[?&]q=([^&]+)/);
-        if (!match) {
-            console.error("Invalid disguised URL (missing q= parameter).");
+        let encryptedPart;
+
+        const googleMatch = options.url.match(/[?&]q=([^&]+)/);
+        const decodePathMatch = options.url.match(/\/decode\/([^/?#]+)/);
+
+        if (googleMatch) {
+            encryptedPart = googleMatch[1];
+        } else if (decodePathMatch) {
+            encryptedPart = decodePathMatch[1];
+        } else {
+            console.error("Invalid URL format. Expected Google search or /decode/ URL.");
             process.exit(1);
         }
-        const decrypted = decryptUrl(match[1], options.pass, options.type);
+
+        const decrypted = decryptUrl(encryptedPart, options.pass, options.type);
         console.log(decrypted || "Decryption failed (wrong password, invalid type, or corrupt data).");
     });
 

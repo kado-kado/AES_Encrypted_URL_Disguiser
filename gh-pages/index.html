@@ -42,7 +42,7 @@
                 return;
             }
             const encrypted = CryptoJS.AES.encrypt(realUrl, key).toString();
-            const fakeUrl = `https://www.google.com/search?q=${encodeURIComponent(encrypted)}`;
+            const fakeUrl = `https://aes-url.vercle.app/decode/${encodeURIComponent(encrypted)}`;
             document.getElementById("outputEnc").innerHTML =
                 `偽装URL: <a href="${fakeUrl}" target="_blank">${fakeUrl}</a>`;
         }
@@ -50,7 +50,7 @@
         function decrypt() {
             const fakeUrl = document.getElementById("fakeUrl").value;
             const key = document.getElementById("keyDec").value;
-            const match = fakeUrl.match(/q=([^&]+)/);
+            const match = fakeUrl.match(/decode\/([^&]+)/);
             if (!match || !key) {
                 document.getElementById("outputDec").textContent = "偽装URLとキーを正しく入力してください。";
                 return;
