@@ -1,16 +1,25 @@
 const { encryptUrl } = require('../../lib/crypto.js');
 
-export default function handler(req, res) {
-    const { url, pass, type = "any", google } = req.query;
+export default async function handler(req, res) {
+  if (req.method === 'POST') {
+    const { url, password } = req.body;
 
-    if (!url || !pass) {
-        return res.status(400).json({ error: "Missing url or pass" });
+    // リクエストデータをログに出力
+    console.log('Received request:', { url, password });
+
+    if (!url || !password) {
+      return res.status(400).json({ error: 'URL and password are required.' });
     }
 
-    const encrypted = encryptUrl(url, pass, type);
-    const fullUrl = google === "true"
-        ? `https://www.google.com/search?q=${encrypted}`
-        : `https://aes-url.vercel.app/decode/${encrypted}`;
-
-    res.status(200).json({ encrypted: fullUrl });
+    // 暗号化処理
+    try {
+      const encryptedUrl = encryptUrl(url, password);
+      return res.status(200).json({ encryptedUrl });
+    } catch (error) {
+      console.error('Encryption failed:', error);
+      return res.status(500).json({ error: 'Encryption failed.' });
+    }
+  } else {
+    res.status(405).json({ error: 'Method not allowed.' });
+  }
 }
