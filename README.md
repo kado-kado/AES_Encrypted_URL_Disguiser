@@ -4,6 +4,9 @@
 
 任意のURLをAESで暗号化し、Google検索クエリに偽装して出力します。意図した相手のみが復号できるようにURLを安全に共有するためのCLIツールです。
 
+[Cloudflare](https://aes-url.pages.dev)
+[Vercel](https://aes-url.vercel.app)
+
 ---
 
 ## 特徴
