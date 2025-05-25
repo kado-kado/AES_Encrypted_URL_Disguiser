@@ -30,17 +30,26 @@
                 const encrypted = CryptoJS.AES.encrypt(realUrl, key1).toString();
                 const encodedUrl = `?${encodeURIComponent(encrypted)}`;
                 const fullUrl = `https://aes-url.vercel.app/decode/${encodedUrl}`;
+
+                window.generatedUrl = fullUrl;
+
                 document.getElementById("output").innerHTML =
                     `<h2>Encode</h2><br><a href="${fullUrl}" target="_blank">${fullUrl}</a>`;
             } catch (e) {
                 document.getElementById("output").textContent = "暗号化に失敗しました。";
             }
         }
+
         function shareNative() {
+            if (!window.generatedUrl) {
+                alert("共有できるURLがまだ生成されていません。");
+                return;
+            }
+
             if (navigator.share) {
                 navigator.share({
-                title: 'AES-URL 共有リンク',
-                text: `偽造URL : ${window.generatedUrl}`
+                    title: 'AES-URL 共有リンク',
+                    text: `偽造URL : ${window.generatedUrl}`
                 })
                 .then(() => console.log('共有されました'))
                 .catch((error) => console.log('共有がキャンセルされました', error));
