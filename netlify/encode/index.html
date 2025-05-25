@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AES-URL</title>
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <h1>AES-URL</h1>
+    <br>
+    <div id="output"></div>
+    <br>
+    <button onclick="shareNative()">シェアする。</button>
+    <br>
+        <hr style="margin: 2em 0; border: none; border-top: 1px solid #ccc;">
+        <h3>Credit</h3>
+        <p>Github <a href="https://github.com/kado-kado/AES_Encrypted_URL_Disguiser">Repository</a></p>
+        <p>Made by <a href="https://github.com/kado-kado">@kado-kado</a></p>
+    <script>
+        window.onload = function() {
+            const realUrl = prompt("偽造したいURLを入力してください：");
+            const key1 = prompt("パスワードを入力してください：");
+
+            try {
+                const encrypted = CryptoJS.AES.encrypt(realUrl, key1).toString();
+                const encodedUrl = `?${encodeURIComponent(encrypted)}`;
+                const fullUrl = `https://aes-url.netlify.dev/decode/${encodedUrl}`;
+
+                window.generatedUrl = fullUrl;
+
+                document.getElementById("output").innerHTML =
+                    `<h2>Encode</h2><br><a href="${fullUrl}" target="_blank">${fullUrl}</a>`;
+            } catch (e) {
+                document.getElementById("output").textContent = "暗号化に失敗しました。";
+            }
+        }
+
+        function shareNative() {
+            if (!window.generatedUrl) {
+                alert("共有できるURLがまだ生成されていません。");
+                return;
+            }
+
+            if (navigator.share) {
+                navigator.share({
+                    title: 'AES-URL 共有リンク',
+                    text: `偽造URL : ${window.generatedUrl}`
+                })
+                .then(() => console.log('共有されました'))
+                .catch((error) => console.log('共有がキャンセルされました', error));
+            } else {
+                alert("この端末・ブラウザではネイティブ共有がサポートされていません。");
+            }
+        }
+    </script>
+</body>
+</html>

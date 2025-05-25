@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AES-URL</title>
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <h1>AES-URL</h1>
+    <br>
+    <div id="output"></div>
+    <br>
+    <a href="../">AES-URLとは</a>
+    <br>
+        <hr style="margin: 2em 0; border: none; border-top: 1px solid #ccc;">
+        <h3>Credit</h3>
+        <p>Github <a href="https://github.com/kado-kado/AES_Encrypted_URL_Disguiser">Repository</a></p>
+        <p>Made by <a href="https://github.com/kado-kado">@kado-kado</a></p>
+    <script>
+        window.onload = function () {
+            const params = new URLSearchParams(window.location.search);
+            const encText = params.keys().next().value;
+            if (!encText) {
+                document.getElementById("output").textContent = "暗号化されたクエリが見つかりません。";
+                return;
+            }
+
+            const key = prompt("復号キーを入力してください:");
+            if (!key) {
+                document.getElementById("output").textContent = "復号キーが入力されていません。";
+                return;
+            }
+
+            try {
+                const decrypted = CryptoJS.AES.decrypt(decodeURIComponent(encText), key).toString(CryptoJS.enc.Utf8);
+                if (!decrypted) throw new Error();
+                document.getElementById("output").innerHTML =
+                    `<h3>Decode</h3><br><a href="${decrypted}" target="_blank">${decrypted}</a>`;
+            } catch (e) {
+                document.getElementById("output").textContent = "復号に失敗しました。キーが間違っている可能性があります。";
+            }
+        };
+    </script>
+</body>
+</html>
