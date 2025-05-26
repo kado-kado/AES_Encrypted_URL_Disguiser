@@ -4,11 +4,14 @@
 
 Encrypt any URL using AES and disguise it as a Google search query. This tool allows you to securely share URLs by disguising them in a way that only the intended recipient can decrypt.
 
+[Web](https://kado-kado.github.io/AES_Encrypted_URL_Disguiser/)
+
 [Cloudflare](https://aes-url.pages.dev)
 
 [Netlify](https://aes-url.netlify.app)
 
 [Vercel](https://aes-url.vercel.app)
+
 ---
 
 ## Features

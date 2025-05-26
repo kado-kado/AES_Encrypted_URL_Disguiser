@@ -4,11 +4,14 @@
 
 任意のURLをAESで暗号化し、Google検索クエリに偽装して出力します。意図した相手のみが復号できるようにURLを安全に共有するためのCLIツールです。
 
+[Web](https://kado-kado.github.io/AES_Encrypted_URL_Disguiser/)
+
 [Cloudflare](https://aes-url.pages.dev)
 
 [Netlify](https://aes-url.netlify.app)
 
 [Vercel](https://aes-url.vercel.app)
+
 ---
 
 ## 特徴
