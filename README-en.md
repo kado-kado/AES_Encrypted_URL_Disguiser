@@ -6,8 +6,9 @@ Encrypt any URL using AES and disguise it as a Google search query. This tool al
 
 [Cloudflare](https://aes-url.pages.dev)
 
-[Vercel](https://aes-url.vercel.app)
+[Netlify](https://aes-url.netlify.app)
 
+[Vercel](https://aes-url.vercel.app)
 ---
 
 ## Features

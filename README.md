@@ -6,8 +6,9 @@
 
 [Cloudflare](https://aes-url.pages.dev)
 
-[Vercel](https://aes-url.vercel.app)
+[Netlify](https://aes-url.netlify.app)
 
+[Vercel](https://aes-url.vercel.app)
 ---
 
 ## 特徴
