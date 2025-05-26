@@ -23,10 +23,9 @@
         <p>Made by <a href="https://github.com/kado-kado">@kado-kado</a></p>
     <script>
         window.onload = function () {
-            const params = new URLSearchParams(window.location.search);
-            const encText = params.keys().next().value;
-            if (!encText) {
-                document.getElementById("output").textContent = "暗号化されたクエリが見つかりません。";
+            const hash = window.location.hash.substring(1);
+            if (!hash) {
+                document.getElementById("output").textContent = "暗号化されたフラグメントが見つかりません。";
                 return;
             }
 
@@ -37,8 +36,14 @@
             }
 
             try {
-                const decrypted = CryptoJS.AES.decrypt(decodeURIComponent(encText), key).toString(CryptoJS.enc.Utf8);
+                const base64 = hash
+                    .replace(/-/g, '+')
+                    .replace(/_/g, '/')
+                    .padEnd(hash.length + (4 - hash.length % 4) % 4, '=');
+
+                const decrypted = CryptoJS.AES.decrypt(base64, key).toString(CryptoJS.enc.Utf8);
                 if (!decrypted) throw new Error();
+
                 document.getElementById("output").innerHTML =
                     `<h3>Decode</h3><br><a href="${decrypted}" target="_blank">${decrypted}</a>`;
             } catch (e) {
