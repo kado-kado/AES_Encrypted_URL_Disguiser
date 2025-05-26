@@ -2,69 +2,50 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>URL偽装 & 復号ツール</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AES-URL</title>
     <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
-    <style>
-        body { font-family: sans-serif; padding: 20px; max-width: 700px; margin: auto; }
-        h2 { margin-top: 30px; }
-        input, button { padding: 8px; width: 100%; margin-top: 10px; }
-        .section { margin-top: 20px; }
-        #outputEnc, #outputDec { margin-top: 15px; font-weight: bold; word-break: break-word; color: green; }
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>URL偽装 & 復号ツール</h1>
-
-    <!-- 暗号化 -->
-    <div class="section">
-        <h2>1. URLを偽装（暗号化）</h2>
-        <input type="text" id="realUrl" placeholder="本物のURLを入力">
-        <input type="password" id="keyEnc" placeholder="暗号化キー（パスワード）">
-        <button onclick="encrypt()">偽装URLを生成</button>
-        <div id="outputEnc"></div>
+    <div class="card">
+        <h1>AES-URL</h1>
+        <p>
+            AES-URL は、URL を安全に暗号化し、<br>
+            一見すると普通のリンクのように見える「偽装リンク」を生成できるツールです。
+        </p>
+        <p>
+            共有したいURLを第三者から守りたいとき、<br>
+            パスワードを知っている人だけが復号できる安全な共有手段として活用できます。
+        </p>
+        <p>
+            もちろん無料で使うことができます。
+        </p>
+        <h1>使ってみる。</h1>
+        <p>以下の種類からお選びください。</p>
+        <a href="https://aes-url.pages.dev/e">aes-url Deployed by Cloudflare</a>
+        <br>
+        <br>
+        <a href="https://aes-url.vercel.app/encode">aes-url Deployed by Vercel</a>
+        <br>
+        <br>
+        <a href="https://aes-url.netlify.app/e">aes-url Deployed by Netlify</a>
+        <br>
+        <hr style="margin: 2em 0; border: none; border-top: 1px solid #ccc;">
+        <h3>Credit</h3>
+        <p>Github <a href="https://github.com/kado-kado/AES_Encrypted_URL_Disguiser" target="_blank">Repository</a></p>
+        <p>npm <a href="https://www.npmjs.com/package/aes-url" target="_blank">npmjs</a></p>
+        <p>Made by <a href="https://github.com/kado-kado" target="_blank">@kado-kado</a></p>
+        <h4>Special Thanks</h4>
+        <p>AES Encryption by <a href="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js" target="_blank">CryptoJS</a></p>
+        <p>URL-safe encoding with <a href="https://en.wikipedia.org/wiki/Base64#URL_applications" target="_blank">Base64url</a></p>
+        <p>Hosted source on <a href="https://github.com/" target="_blank">GitHub</a></p>
+        <p>Deployed by <a href="https://vercel.com" target="_blank">Vercel</a></p>
+        <p>Deployed by <a href="https://pages.cloudflare.com/" target="_blank">Cloudflare Pages</a></p>
+        <p>Deployed by <a href="https://www.netlify.com/" target="_blank">Netlify</a></p>
     </div>
-
-    <!-- 復号 -->
-    <div class="section">
-        <h2>2. 偽装URLを復号</h2>
-        <input type="text" id="fakeUrl" placeholder='例: https://www.google.com/search?q=暗号文字列'>
-        <input type="password" id="keyDec" placeholder="復号キー（パスワード）">
-        <button onclick="decrypt()">元のURLを復元</button>
-        <div id="outputDec"></div>
-    </div>
-
-    <script>
-        function encrypt() {
-            const realUrl = document.getElementById("realUrl").value;
-            const key = document.getElementById("keyEnc").value;
-            if (!realUrl || !key) {
-                document.getElementById("outputEnc").textContent = "URLとキーを入力してください。";
-                return;
-            }
-            const encrypted = CryptoJS.AES.encrypt(realUrl, key).toString();
-            const fakeUrl = `https://www.google.com/search?q=${encodeURIComponent(encrypted)}`;
-            document.getElementById("outputEnc").innerHTML =
-                `偽装URL: <a href="${fakeUrl}" target="_blank">${fakeUrl}</a>`;
-        }
-
-        function decrypt() {
-            const fakeUrl = document.getElementById("fakeUrl").value;
-            const key = document.getElementById("keyDec").value;
-            const match = fakeUrl.match(/q=([^&]+)/);
-            if (!match || !key) {
-                document.getElementById("outputDec").textContent = "偽装URLとキーを正しく入力してください。";
-                return;
-            }
-            try {
-                const decodedParam = decodeURIComponent(match[1]);
-                const decrypted = CryptoJS.AES.decrypt(decodedParam, key).toString(CryptoJS.enc.Utf8);
-                if (!decrypted) throw new Error();
-                document.getElementById("outputDec").innerHTML =
-                    `元のURL: <a href="${decrypted}" target="_blank">${decrypted}</a>`;
-            } catch (e) {
-                document.getElementById("outputDec").textContent = "復号に失敗しました。キーが間違っている可能性があります。";
-            }
-        }
-    </script>
 </body>
 </html>
