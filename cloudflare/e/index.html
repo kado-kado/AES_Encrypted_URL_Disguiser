@@ -29,7 +29,7 @@
             try {
                 const encrypted = CryptoJS.AES.encrypt(realUrl, key1).toString();
                 const encodedUrl = `?${encodeURIComponent(encrypted)}`;
-                const fullUrl = `https://aes-url.pages.dev/decode/${encodedUrl}`;
+                const fullUrl = `https://aes-url.pages.dev/d/#${encodedUrl}`;
 
                 window.generatedUrl = fullUrl;
 
