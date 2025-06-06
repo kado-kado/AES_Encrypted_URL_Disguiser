@@ -30,35 +30,57 @@
         <p>Hosted source on <a href="https://github.com/" target="_blank">GitHub</a></p>
         <p>Deployed by <a href="https://pages.cloudflare.com/" target="_blank">Cloudflare Pages</a></p>
 
-    <script>
-        window.onload = function () {
-            const hash = window.location.hash.substring(1);
-            if (!hash) {
-                document.getElementById("output").textContent = "暗号化されたフラグメントが見つかりません。";
-                return;
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
+<div id="output"></div>
+
+<script>
+    window.onload = function () {
+        const hash = window.location.hash.substring(1);
+        const output = document.getElementById("output");
+
+        if (!hash) {
+            output.textContent = "暗号化されたフラグメントが見つかりません。";
+            return;
+        }
+
+        const key = prompt("復号キーを入力してください:");
+        if (!key) {
+            output.textContent = "復号キーが入力されていません。";
+            return;
+        }
+
+        try {
+            const base64 = hash
+                .replace(/-/g, '+')
+                .replace(/_/g, '/')
+                .padEnd(hash.length + (4 - hash.length % 4) % 4, '=');
+
+            const decrypted = CryptoJS.AES.decrypt(base64, key).toString(CryptoJS.enc.Utf8);
+            if (!decrypted) throw new Error("復号結果が空です");
+
+            const header = document.createElement("h3");
+            header.textContent = "Decode";
+            output.appendChild(header);
+
+            const lineBreak = document.createElement("br");
+            output.appendChild(lineBreak);
+
+            const link = document.createElement("a");
+            link.href = decrypted;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            link.textContent = decrypted;
+
+            if (!/^https?:\/\//i.test(decrypted)) {
+                throw new Error("不正なリンク形式です。httpまたはhttpsで始まるURLのみ許可されています。");
             }
 
-            const key = prompt("復号キーを入力してください:");
-            if (!key) {
-                document.getElementById("output").textContent = "復号キーが入力されていません。";
-                return;
-            }
-
-            try {
-                const base64 = hash
-                    .replace(/-/g, '+')
-                    .replace(/_/g, '/')
-                    .padEnd(hash.length + (4 - hash.length % 4) % 4, '=');
-
-                const decrypted = CryptoJS.AES.decrypt(base64, key).toString(CryptoJS.enc.Utf8);
-                if (!decrypted) throw new Error();
-
-                document.getElementById("output").innerHTML =
-                    `<h3>Decode</h3><br><a href="${decrypted}" target="_blank">${decrypted}</a>`;
-            } catch (e) {
-                document.getElementById("output").textContent = "復号に失敗しました。キーが間違っている可能性があります。";
-            }
-        };
-    </script>
+            output.appendChild(link);
+        } catch (e) {
+            output.textContent = "復号に失敗しました。キーが間違っているか、データが不正です。";
+            console.error(e);
+        }
+    };
+</script>
 </body>
 </html>
