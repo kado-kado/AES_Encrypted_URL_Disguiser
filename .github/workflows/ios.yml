@@ -3,7 +3,7 @@ name: iOS Build (Tauri) npm CLI
 on:
   push:
     branches:
-      - ios  # ios ブランチへの push でトリガー
+      - ios
 
 jobs:
   build-ios:
@@ -27,7 +27,7 @@ jobs:
           sudo xcode-select -s /Applications/Xcode.app
           sudo xcodebuild -license accept
 
-      # Tauri CLI インストール (npm 版で高速)
+      # Tauri CLI インストール (npm 版)
       - name: Install Tauri CLI
         run: npm install -g @tauri-apps/cli
 
@@ -45,7 +45,7 @@ jobs:
 
       # iOS ビルド (Release + 詳細ログ)
       - name: Build iOS IPA
-        run: tauri ios build --release -v
+        run: tauri ios build -- --release -v
 
       # IPA を Artifact として保存
       - name: Upload IPA
