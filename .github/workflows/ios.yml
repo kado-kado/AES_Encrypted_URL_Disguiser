@@ -1,0 +1,57 @@
+name: iOS Build (Tauri)
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'App version'
+        required: false
+        default: '0.1.0'
+
+jobs:
+  init-and-build-ios:
+    runs-on: macos-latest
+
+    steps:
+      # ソースコード取得
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: ios  # iOS branch をチェックアウト
+
+      # Rust 環境インストール
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+
+      # Node.js / npm 環境（Tauri フロント用）
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      # Tauri CLI インストール
+      - name: Install Tauri CLI
+        run: cargo install tauri-cli --locked
+
+      # 必要なら依存モジュールインストール
+      - name: Install dependencies
+        run: npm ci
+
+      # iOS プロジェクト初期化（macOS runner 上でのみ可能）
+      - name: Initialize iOS project
+        run: cargo tauri ios init
+
+      # iOS ビルド（未署名 IPA）
+      - name: Build iOS IPA
+        run: cargo tauri ios build --release
+
+      # IPA を GitHub Actions Artifact として保存
+      - name: Upload IPA
+        uses: actions/upload-artifact@v3
+        with:
+          name: Tauri-iOS-IPA
+          path: src-tauri/gen/apple/target/ios/release/*.ipa
