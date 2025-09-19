@@ -3,40 +3,55 @@ name: iOS Build (Tauri)
 on:
   push:
     branches:
-      - ios
+      - ios  # このブランチへの push でトリガー
 
 jobs:
   init-and-build-ios:
     runs-on: macos-latest
 
     steps:
+      # ソースコード取得
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # Rust 環境インストール
       - name: Install Rust
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
           override: true
 
+      # Cargo bin のキャッシュ
+      - name: Cache cargo bin
+        uses: actions/cache@v3
+        with:
+          path: ~/.cargo/bin
+          key: cargo-bin-tauri-${{ hashFiles('**/Cargo.lock') }}
+
+      # Tauri CLI インストール（キャッシュされていなければビルド）
+      - name: Install Tauri CLI
+        run: cargo install tauri-cli --locked
+
+      # Node.js / npm 環境（Tauri フロント用）
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 20
           cache: 'npm'
 
-      - name: Install Tauri CLI
-        run: cargo install tauri-cli --locked
-
+      # 依存モジュールインストール
       - name: Install dependencies
         run: npm ci
 
+      # iOS プロジェクト初期化
       - name: Initialize iOS project
         run: cargo tauri ios init
 
+      # iOS ビルド（Release ビルド）
       - name: Build iOS IPA
-        run: cargo tauri ios build --release
+        run: cargo tauri ios build -- --release
 
+      # IPA を GitHub Actions Artifact として保存
       - name: Upload IPA
         uses: actions/upload-artifact@v4
         with:
