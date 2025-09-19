@@ -1,9 +1,9 @@
-name: iOS Build (Tauri)
+name: iOS Build (Tauri) Debug + Cache
 
 on:
   push:
     branches:
-      - ios  # このブランチへの push でトリガー
+      - ios
 
 jobs:
   init-and-build-ios:
@@ -14,30 +14,36 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Rust 環境インストール
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
-
-      # Cargo bin のキャッシュ
-      - name: Cache cargo bin
-        uses: actions/cache@v3
-        with:
-          path: ~/.cargo/bin
-          key: cargo-bin-tauri-${{ hashFiles('**/Cargo.lock') }}
-
-      # Tauri CLI インストール（キャッシュされていなければビルド）
-      - name: Install Tauri CLI
-        run: cargo install tauri-cli --locked
-
-      # Node.js / npm 環境（Tauri フロント用）
+      # Node.js / npm 環境
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 20
           cache: 'npm'
+
+      # Xcode 環境確認（ライセンス承認など）
+      - name: Setup Xcode
+        run: |
+          sudo xcode-select -s /Applications/Xcode.app
+          sudo xcodebuild -license accept
+
+      # Cargo registry と target をキャッシュ
+      - name: Cache Cargo
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      # Tauri CLI インストール (npm 版で高速)
+      - name: Install Tauri CLI
+        run: npm install -g @tauri-apps/cli
+
+      # Tauri CLI が PATH にあるか確認
+      - name: Check Tauri CLI
+        run: which tauri && tauri -V
 
       # 依存モジュールインストール
       - name: Install dependencies
@@ -45,13 +51,13 @@ jobs:
 
       # iOS プロジェクト初期化
       - name: Initialize iOS project
-        run: cargo tauri ios init
+        run: cargo tauri ios init -v
 
-      # iOS ビルド（Release ビルド）
+      # iOS ビルド (Release + 詳細ログ)
       - name: Build iOS IPA
-        run: cargo tauri ios build -- --release
+        run: cargo tauri ios build -- --release -v
 
-      # IPA を GitHub Actions Artifact として保存
+      # IPA を Artifact として保存
       - name: Upload IPA
         uses: actions/upload-artifact@v4
         with:
