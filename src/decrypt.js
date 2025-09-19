@@ -1,7 +1,13 @@
 function decrypt() {
-    const hash = window.location.hash.substring(1);
     const output = document.getElementById("output");
-    output.innerHTML = ""; // 前の出力をクリア
+    output.innerHTML = "";
+
+    let hash = document.getElementById("encryptedBox").value.trim();
+    if (!hash) {
+        hash = window.location.hash.substring(1);
+    } else if (hash.includes('#')) {
+        hash = hash.split('#')[1];
+    }
 
     if (!hash) {
         output.textContent = "暗号化されたフラグメントが見つかりません。";
@@ -24,16 +30,16 @@ function decrypt() {
         if (!decrypted) throw new Error("復号結果が空です");
 
         if (!/^https?:\/\//i.test(decrypted)) {
-            throw new Error("不正なリンク形式です。httpまたはhttpsで始まるURLのみ許可されています。");
+            throw new Error("不正な形式です。httpまたはhttpsで始まるURLのみ許可されています。");
         }
 
-        output.innerHTML = `
+        output_de.innerHTML = `
             <h3>Decode</h3>
             <a href="${decrypted}" target="_blank" rel="noopener noreferrer">${decrypted}</a>
         `;
-        alert('復号後のURLの安全性の保証はできません。')
+        alert('復号後のURLの安全性の保証はできません。');
     } catch (e) {
-        output.textContent = "復号に失敗しました。キーが間違っているか、データが不正です。";
+        output_de.textContent = "復号に失敗しました。キーが間違っているか、データが不正です。";
         console.error(e);
     }
 }

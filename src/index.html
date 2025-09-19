@@ -17,7 +17,8 @@
             <h2>AES-URL</h2>
             <ul class="menu-list">
                 <li><a href="#" onclick="showSection('Main')">Main</a></li>
-                <li><a href="#" onclick="showSection('Use')">Use</a></li>
+                <li><a href="#" onclick="showSection('Encode')">Encrypt</a></li>
+                <li><a href="#" onclick="showSection('Decode')">Decrypt</a></li>
                 <li><a href="#" onclick="toggleTheme()">Toggle Theme</a></li>
                 <li><a href="#" onclick="showSection('Credits')">Credits</a></li>
             </ul>
@@ -38,19 +39,27 @@
                 <p>
                     もちろん無料で使うことができます。
                 </p>
-                <a href="#" onclick="showSection('Use')">使ってみる。</a>
+                <a href="#" onclick="showSection('Encode')">使ってみる。</a>
             </div>
         </section>
-        <section id="Use" class="content-section">
+        <section id="Encode" class="content-section">
             <input type="text" id="urlInput" placeholder="共有したいURLを入力" style="width: 80%;"><br>
             <input type="text" id="passInput" placeholder="パスワード（未入力で自動生成）" style="width: 80%;"><br>
             <button onclick="encrypt()">URLを偽装する</button>
             <div id="output" style="margin-top: 1em;"></div>
             <button onclick="shareNative()">共有する</button>
         </section>
+        <section id="Decode" class="content-section">
+            <div id="decrypt-area" style="margin-top: 2em;">
+                <input type="text" id="encryptedBox" placeholder="暗号化URLをここに入力" style="width: 80%;"><br>
+                <input type="text" id="decryptKeyInput" placeholder="復号キーを入力" style="width: 80%;"><br>
+                <button onclick="decrypt()">復号する</button>
+                <div id="output_de" style="margin-top: 1em;"></div>
+            </div>
+        </section>
         <section id="Credits" class="content-section">
             <h3>Credit</h3>
-            <p>AES-URL ver.4.0.0</p>
+            <p>AES-URL for Windows ver.1.0.0</p>
             <p>Github <a href="https://github.com/kado-kado/AES_Encrypted_URL_Disguiser" target="_blank">Repository</a></p>
             <p>npm <a href="https://www.npmjs.com/package/aes-url" target="_blank">npmjs</a></p>
             <p>Made by <a href="https://github.com/kado-kado" target="_blank">@kado-kado</a></p>
@@ -59,11 +68,12 @@
             <p>URL-safe encoding with <a href="https://en.wikipedia.org/wiki/Base64#URL_applications" target="_blank">Base64url</a></p>
             <p>Powered by <a href="https://fonts.google.com/specimen/Zen+Maru+Gothic" target="_blank">Google Fonts(Zen Maru Gothic)</a></p>
             <p>Hosted source on <a href="https://github.com/" target="_blank">GitHub</a></p>
-            <p>Deployed by <a href="https://pages.cloudflare.com/" target="_blank">Cloudflare Pages</a></p>
+            <p>Developed with <a href="https://www.lang.org/" target="_blank">Rust</a> and <a href="https://tauri.app/" target="_blank">Tauri</a></p>
         </section>
     </main>
     <script src="change-section.js"></script>
     <script src="change-mode.js"></script>
     <script src="encrypt.js"></script>
+    <script src="decrypt.js"></script>
 </body>
 </html>
