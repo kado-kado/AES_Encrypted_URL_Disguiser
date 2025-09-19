@@ -1,4 +1,4 @@
-name: iOS Build (Tauri) npm CLI
+name: iOS Build (Tauri) Simulator
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - ios
 
 jobs:
-  build-ios:
+  build-ios-simulator:
     runs-on: macos-latest
 
     steps:
@@ -43,13 +43,13 @@ jobs:
       - name: Initialize iOS project
         run: tauri ios init -v
 
-      # iOS ビルド (Release + 詳細ログ)
-      - name: Build iOS IPA
-        run: tauri ios build -- --release -v
+      # iOS ビルド (シミュレータ向け Release + 詳細ログ)
+      - name: Build iOS IPA (Simulator)
+        run: tauri ios build --simulator -- --release -v
 
-      # IPA を Artifact として保存
+      # ビルド成果物を Artifact として保存
       - name: Upload IPA
         uses: actions/upload-artifact@v4
         with:
-          name: Tauri-iOS-IPA
-          path: src-tauri/gen/apple/target/ios/release/*.ipa
+          name: Tauri-iOS-Simulator
+          path: src-tauri/gen/apple/target/ios/release/*.app
