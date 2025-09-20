@@ -3,10 +3,11 @@
 // aes-url
 //
 // Created by Anonym on 20.09.25.
-//
+
 
 #import "TabBarController.h"
 #import "ViewController.h"
+#import <UIKit/UIKit.h>
 
 @implementation TabBarController
 
@@ -21,7 +22,18 @@
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
 
             UIImage *icon = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", tab]];
-            nav.tabBarItem = [[UITabBarItem alloc] initWithTitle:tab image:icon tag:0];
+            
+            UIImageView *iconView = [[UIImageView alloc] initWithImage:icon];
+            iconView.frame = CGRectMake(0, 0, 30, 30);
+
+            UIGraphicsBeginImageContextWithOptions(iconView.bounds.size, NO, 0.0);
+            [iconView.layer renderInContext:UIGraphicsGetCurrentContext()];
+            UIImage *fixedSizeIcon = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+
+            nav.tabBarItem = [[UITabBarItem alloc] initWithTitle:tab
+                                                           image:[fixedSizeIcon imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
+                                                             tag:0];
 
             [viewControllers addObject:nav];
         }
