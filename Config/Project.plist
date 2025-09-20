@@ -2,27 +2,28 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>LDEBundleIdentifier</key>
-    <string>dev.pages.aes-url</string>
-    
-    <key>LDEDisplayName</key>
-    <string>aes-url</string>
-    
-    <key>LDEIcon</key>
-    <string>Resources/AppIcon.png</string>
-    
-    <key>LDELinkerFlags</key>
-    <array>
-        <string>-ObjC</string>
-        <string>-lc</string>
-        <string>-lc++</string>
-        <string>-framework</string>
-        <string>Foundation</string>
-        <string>-framework</string>
-        <string>UIKit</string>
-        <string>-framework</string>
-        <string>WebKit</string>
-    </array>
+	<key>LDEBundleIdentifier</key>
+	<string>dev.pages.aes-url</string>
+	<key>LDEBundleShortVersion</key>
+	<string>1.0</string>
+	<key>LDEDisplayName</key>
+	<string>aes-url</string>
+	<key>LDEExecutable</key>
+	<string>Unknown</string>
+	<key>LDEIcon</key>
+	<string>AppIcon</string>
+	<key>LDELinkerFlags</key>
+	<array>
+		<string>-ObjC</string>
+		<string>-lc</string>
+		<string>-lc++</string>
+		<string>-framework</string>
+		<string>Foundation</string>
+		<string>-framework</string>
+		<string>UIKit</string>
+		<string>-framework</string>
+		<string>WebKit</string>
+	</array>
 	<key>LDEMinimumVersion</key>
 	<string>26.0</string>
 	<key>LDEProjectType</key>

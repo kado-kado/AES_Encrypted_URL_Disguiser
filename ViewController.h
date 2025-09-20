@@ -6,7 +6,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <WebKit/WebKit.h>
 
 @interface ViewController : UIViewController
+
 - (instancetype)initWithTabName:(NSString *)tabName;
+
 @end
