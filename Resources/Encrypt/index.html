@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AES-URL</title>
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <main id="main">
+        <section id="Encode" class="content-section">
+            <input type="text" id="urlInput" placeholder="共有したいURLを入力" style="width: 80%;"><br>
+            <input type="text" id="passInput" placeholder="パスワード（未入力で自動生成）" style="width: 80%;"><br>
+            <button onclick="encrypt()">URLを偽装する</button>
+            <div id="output" style="margin-top: 1em;"></div>
+            <button onclick="shareNative()">共有する</button>
+        </section>
+    </main>
+    <script src="../change-mode.js"></script>
+    <script src="../encrypt.js"></script>
+    <script src="../decrypt.js"></script>
+</body>
+</html>

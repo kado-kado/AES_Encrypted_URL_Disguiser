@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AES-URL</title>
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <main id="main">
+        <section id="Main" class="content-section">
+            <nav id="sidebar">
+                <ul class="menu-list">
+                    <li><a href="#" onclick="toggleTheme()">Toggle Theme</a></li>
+                    <br>
+                    <li><a href="#" onclick="showSection('Info')">Info</a></li>
+                    <br>
+                    <li><a href="#" onclick="showSection('Credits')">Credits</a></li>
+                </ul>
+            </nav>
+        </section>
+        <section id="Info" class="content-section">
+            <h3>AES-URL for iOS ver.1.0.0</h3>
+            <p>build_Number : </p>
+            <br>
+            <a href="#" onclick="showSection('Main')">戻る</a>
+        </section>
+        <section id="Credits" class="content-section">
+            <h3>Credit</h3>
+            <p>AES-URL for iOS ver.1.0.0</p>
+            <p>Github <a href="https://github.com/kado-kado/AES_Encrypted_URL_Disguiser" target="_blank">Repository</a></p>
+            <p>npm <a href="https://www.npmjs.com/package/aes-url" target="_blank">npmjs</a></p>
+            <p>Made by <a href="https://github.com/kado-kado" target="_blank">@kado-kado</a></p>
+            <h4>Special Thanks</h4>
+            <p>AES Encryption by <a href="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js" target="_blank">CryptoJS</a></p>
+            <p>URL-safe encoding with <a href="https://en.wikipedia.org/wiki/Base64#URL_applications" target="_blank">Base64url</a></p>
+            <p>Powered by <a href="https://fonts.google.com/specimen/Zen+Maru+Gothic" target="_blank">Google Fonts(Zen Maru Gothic)</a></p>
+            <p>Hosted source on <a href="https://github.com/" target="_blank">GitHub</a></p>
+            <br>
+            <a href="#" onclick="showSection('Main')">戻る</a>
+        </section>
+    </main>
+    <script src="../change-section.js"></script>
+    <script src="../change-mode.js"></script>
+    <script src="../encrypt.js"></script>
+    <script src="../decrypt.js"></script>
+</body>
+</html>

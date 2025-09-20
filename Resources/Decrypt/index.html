@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AES-URL</title>
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <main id="main">
+        <section id="Decode" class="content-section">
+            <div id="decrypt-area" style="margin-top: 2em;">
+                <input type="text" id="encryptedBox" placeholder="暗号化URLをここに入力" style="width: 80%;"><br>
+                <input type="text" id="decryptKeyInput" placeholder="復号キーを入力" style="width: 80%;"><br>
+                <button onclick="decrypt()">復号する</button>
+                <div id="output_de" style="margin-top: 1em;"></div>
+            </div>
+        </section>
+    </main>
+    <script src="../change-mode.js"></script>
+    <script src="../decrypt.js"></script>
+</body>
+</html>
