@@ -39,21 +39,3 @@ function encrypt() {
         document.getElementById("output").textContent = "暗号化に失敗しました。";
     }
 }
-
-function shareNative() {
-    if (!window.generatedUrl) {
-        alert("共有できるURLがまだ生成されていません。");
-        return;
-    }
-
-    if (navigator.share) {
-        navigator.share({
-            title: 'AES-URL 共有リンク',
-            text: `偽造URL : ${window.generatedUrl}`
-        })
-        .then(() => console.log('共有されました'))
-        .catch((error) => console.log('共有がキャンセルされました', error));
-    } else {
-        alert("この端末・ブラウザではネイティブ共有がサポートされていません。");
-    }
-}

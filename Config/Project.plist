@@ -9,7 +9,7 @@
 	<key>LDEDisplayName</key>
 	<string>aes-url</string>
 	<key>LDEExecutable</key>
-	<string>Unknown</string>
+	<string>aes-url</string>
 	<key>LDEIcon</key>
 	<string>AppIcon</string>
 	<key>LDELinkerFlags</key>
