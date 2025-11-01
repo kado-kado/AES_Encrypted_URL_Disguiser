@@ -1,0 +1,66 @@
+name: Tauri iOS Build CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  # 手動実行を可能にする
+  workflow_dispatch:
+
+env:
+  # Cargoのログカラーを常に有効にする
+  CARGO_TERM_COLOR: always
+
+jobs:
+  ios-build:
+    # 必須: iOSビルドにはmacOSランナーが必要です
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    # 1. Node.js環境のセットアップ (フロントエンドのビルドに必要)
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        # ご自身のプロジェクトで使用しているNode.jsバージョンを指定
+        node-version: 20 
+
+    # 2. Rust Toolchainのセットアップ
+    - name: Install Rust Toolchain
+      uses: dtolnay/rust-toolchain@stable
+      with:
+        toolchain: stable
+
+    # 3. Cargo依存関係のキャッシュ (ビルド時間短縮のため強く推奨)
+    - name: Cache Cargo dependencies
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+          target
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-cargo-
+
+    # 4. フロントエンド依存関係のインストール
+    - name: Install Frontend Dependencies
+      # プロジェクトに応じて 'npm install' または 'yarn install' に変更してください
+      run: npm install
+
+    # 5. Tauri iOS ビルドの実行 (シミュレータ向け・リリースモード)
+    - name: Build iOS Release (Simulator)
+      # '--release' は 'cargo' に渡す引数
+      # '--' デリミタ以降の '--simulator' は Xcode build に渡されます
+      run: cargo tauri ios build --release -- --simulator
+      
+    # 6. (オプション) ビルド成果物 (Simulator App Bundle) のアップロード
+    - name: Upload iOS Simulator Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: tauri-ios-simulator-app
+        # ビルド成果物のパスはTauriのプロジェクト構成によって調整が必要な場合があります
+        path: src-tauri/target/aarch64-apple-ios-sim/release/*.app
